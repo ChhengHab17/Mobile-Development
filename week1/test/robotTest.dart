@@ -1,4 +1,4 @@
-import 'package:myLab/correction_bonus_1.dart';
+import '../lib/correction_bonus_1.dart';
 import 'package:test/test.dart';
 
 main() {
