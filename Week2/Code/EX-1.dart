@@ -1,9 +1,9 @@
 enum Skill { FLUTTER, DART, OTHER }
 
 class Address {
-  String street;
-  String city;
-  String zipCode;
+  final String street;
+  final String city;
+  final String zipCode;
 
   Address(this.street, this.city, this.zipCode);
 }
