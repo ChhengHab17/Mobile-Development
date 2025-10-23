@@ -1,24 +1,18 @@
- 
-import 'domain/quiz.dart';
 import 'ui/quiz_console.dart';
+import 'data/quiz_file_provider.dart';
 
 void main() {
-
-  List<Question> questions = [
-    Question(
-        title: "Capital of France?",
-        choices: ["Paris", "London", "Rome"],
-        goodChoice: "Paris",
-        point: 50),
-    Question(
-        title: "2 + 2 = ?",
-        choices: ["2", "4", "5"],
-        goodChoice: "4",
-        )
-  ];
-
-  Quiz quiz = Quiz(questions: questions);
-  QuizConsole console = QuizConsole(quiz: quiz);
-
-  console.startQuiz();
+  try {
+    final provider = QuizRepository(filePath: 'quiz.json');
+    final quiz = provider.loadQuiz();
+    
+    final console = QuizConsole(quiz: quiz);
+    console.startQuiz();
+    
+    provider.saveQuiz(quiz);
+    print('\nQuiz data saved to file.');
+    
+  } catch (e) {
+    print('Error: $e');
+  }
 }
