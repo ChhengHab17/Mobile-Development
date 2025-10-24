@@ -18,7 +18,7 @@ class QuizConsole {
         break;
       }
 
-      List<String> answerIds = [];
+      List<Answer> answers = [];
       for (var question in quiz.questions) {
         print('Question: ${question.title} - (${question.point} points)');
         print('Choices: ${question.choices}');
@@ -26,8 +26,8 @@ class QuizConsole {
         String? userInput = stdin.readLineSync();
 
         if (userInput != null && userInput.isNotEmpty) {
-          final a = quiz.addAnswer(questionId: question.qid, selectedChoice: userInput);
-          answerIds.add(a.aid);
+          final answer = Answer(question: question, answerChoice: userInput);
+          answers.add(answer);
         } else {
           print('No answer entered. Skipping question.');
         }
@@ -35,7 +35,7 @@ class QuizConsole {
         print('');
       }
 
-      final submission = Submission(playerName: name, answerIds: answerIds);
+      final submission = Submission(playerName: name, answers: answers);
       quiz.addSubmission(submission);
 
       final score = quiz.getScore(submission);

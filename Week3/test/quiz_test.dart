@@ -15,10 +15,10 @@ void main() {
   });
 
   test('Player 1 answers all correctly (100%)', () {
-    final a1 = quiz.addAnswer(questionId: q1.qid, selectedChoice: "4");
-    final a2 = quiz.addAnswer(questionId: q2.qid, selectedChoice: "5");
+    final a1 = Answer(question: q1, answerChoice: "4");
+    final a2 = Answer(question: q2, answerChoice: "5");
 
-    final submission = Submission(playerName: 'p1', answerIds: [a1.aid, a2.aid]);
+    final submission = Submission(playerName: 'p1', answers: [a1, a2]);
     quiz.addSubmission(submission);
 
     // Test scoring
@@ -31,10 +31,10 @@ void main() {
 
   test('Player 2 has one correct and one wrong (50%)', () {
 
-    final a1 = quiz.addAnswer(questionId: q1.qid, selectedChoice: "4");
-    final a2 = quiz.addAnswer(questionId: q2.qid, selectedChoice: "6");
+    final a1 = Answer(question: q1, answerChoice: "4");
+    final a2 = Answer(question: q2, answerChoice: "6");
 
-    final submission = Submission(playerName: 'p2', answerIds: [a1.aid, a2.aid]);
+    final submission = Submission(playerName: 'p2', answers: [a1, a2]);
     quiz.addSubmission(submission);
 
     final score = quiz.getScore(submission);
@@ -45,10 +45,10 @@ void main() {
   });
 
   test('Player 3 answers all incorrectly (0%)', () {
-    final a1 = quiz.addAnswer(questionId: q1.qid, selectedChoice: "1");
-    final a2 = quiz.addAnswer(questionId: q2.qid, selectedChoice: "4");
+    final a1 = Answer(question: q1, answerChoice: "1");
+    final a2 = Answer(question: q2, answerChoice: "4");
 
-    final submission = Submission(playerName: 'p3', answerIds: [a1.aid, a2.aid]);
+    final submission = Submission(playerName: 'p3', answers: [a1, a2]);
     quiz.addSubmission(submission);
 
     final score = quiz.getScore(submission);

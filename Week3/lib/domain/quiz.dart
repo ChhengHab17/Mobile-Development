@@ -52,7 +52,6 @@ class Answer{
 class Quiz{
   final String quizid = uuid.v4();
   final List<Question> questions;
-  final Map<String, Answer> answers = {};
   final Map<String, Submission> submissions = {}; 
 
   Quiz({required this.questions});
@@ -61,34 +60,23 @@ class Quiz{
     return questions.firstWhere((q) => q.qid == qid);
   }
 
-  Answer getAnswerById(String aid) => answers[aid]!;
-
-  Answer addAnswer({required String questionId, required String selectedChoice}) {
-    final a = Answer(question: getQuestionById(questionId), answerChoice: selectedChoice);
-    answers[a.aid] = a;
-    return a;
-  }
-
   int getScore(Submission submission) {
     int points = 0;
 
-    for (final aid in submission.answerIds) {
-      final a = answers[aid];
-      if (a == null) continue;
-      final q = questions.firstWhere((q) => q.qid == a.question.qid);
-      if (a.isGood()) {
-        points += q.point;
+    for (final answer in submission.answers) {
+      if (answer.isGood()) {
+        points += answer.question.point;
       }
     }
     return points;
   }
+  
   int scorePercentage(Submission submission) {
     if (questions.isEmpty) return 0;
     
     int correctAnswers = 0;
-    for (final aid in submission.answerIds) {
-      final a = answers[aid];
-      if (a != null && a.isGood()) {
+    for (final answer in submission.answers) {
+      if (answer.isGood()) {
         correctAnswers++;
       }
     }
@@ -103,7 +91,6 @@ class Quiz{
 
   Map<String, dynamic> toJson() => {
         'questions': questions.map((q) => q.toJson()).toList(),
-        'answers': answers.values.map((a) => a.toJson()).toList(),
         'submissions': submissions.values.map((s) => s.toJson()).toList(),
       };
 
@@ -111,23 +98,9 @@ class Quiz{
     final qs = (j['questions'] as List).map((e) => Question.fromJson(Map<String, dynamic>.from(e))).toList();
     final quiz = Quiz(questions: qs);
 
-    final answersJson = j['answers'] as List;
-    for (final ajson in answersJson) {
-      final answerMap = Map<String, dynamic>.from(ajson);
-      final questionId = answerMap['questionId'] as String;
-      final question = quiz.getQuestionById(questionId);
-      
-      final answer = Answer(
-        question: question, 
-        answerChoice: answerMap['selectedChoice'] as String,
-        aid: answerMap['id'] as String? ?? uuid.v4()
-      );
-      quiz.answers[answer.aid] = answer;
-    }
-
     final subsJson = j['submissions'] as List;
     for (final sjson in subsJson) {
-      final s = Submission.fromJson(Map<String, dynamic>.from(sjson));
+      final s = Submission.fromJson(Map<String, dynamic>.from(sjson), quiz);
       quiz.submissions[s.playerName] = s;
     }
 
@@ -137,22 +110,32 @@ class Quiz{
 
 class Submission {
   final String playerName;
-  final List<String> answerIds;
+  final List<Answer> answers;
   final DateTime date;
 
   Submission({
     required this.playerName,
-    required this.answerIds,
+    required this.answers,
     DateTime? date,
   }) : date = date ?? DateTime.now();
-  Submission.fromJson(Map<String, dynamic> j) :
+  
+  Submission.fromJson(Map<String, dynamic> j, Quiz quiz) :
         playerName = j['playerName'] as String,
-        answerIds = List<String>.from(j['answerIds'] as List),
+        answers = (j['answers'] as List).map((answerJson) {
+          final answerMap = Map<String, dynamic>.from(answerJson);
+          final questionId = answerMap['questionId'] as String;
+          final question = quiz.getQuestionById(questionId);
+          return Answer(
+            question: question,
+            answerChoice: answerMap['selectedChoice'] as String,
+            aid: answerMap['id'] as String? ?? uuid.v4()
+          );
+        }).toList(),
         date = DateTime.parse(j['date'] as String);
 
   Map<String, dynamic> toJson() => {
         'playerName': playerName,
-        'answerIds': answerIds,
+        'answers': answers.map((a) => a.toJson()).toList(),
         'date': date.toString(),
       };
 }
