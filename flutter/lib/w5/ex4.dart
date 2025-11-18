@@ -5,15 +5,13 @@ void main() {
     MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: 
-          Align(
+          title: Align(
             alignment: AlignmentGeometry.centerRight,
-            child: Icon(Icons.menu, color: Colors.white)
-            ),
+            child: Icon(Icons.menu, color: Colors.white),
+          ),
           backgroundColor: Colors.lightBlue,
         ),
-        body:
-        Padding(
+        body: Padding(
           padding: EdgeInsets.only(top: 20, left: 5, right: 5),
           child: ListView(
             children: [
