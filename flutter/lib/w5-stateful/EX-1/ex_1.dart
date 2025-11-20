@@ -46,8 +46,8 @@ class _BtnState extends State<Btn> {
           height: 100,
           child: ElevatedButton(
             style:  ElevatedButton.styleFrom(
-              backgroundColor: backgroundColor, // Sets the background color of the button
-              foregroundColor: textColor, // Sets the color of the text/icon on the button
+              backgroundColor: backgroundColor, 
+              foregroundColor: textColor, 
             ),
             onPressed: select,
             child: Center(child: Text(textLabel)),

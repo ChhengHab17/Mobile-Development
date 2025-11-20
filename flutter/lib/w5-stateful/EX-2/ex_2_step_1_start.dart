@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       ),
       body: Column(
         children: [
-          FavoriteCard(title: '1', description: '2'),
-          FavoriteCard(title: 'Hii', description: 'Hoo'),
-          FavoriteCard(title: '4', description: '23')
+          FavoriteCard(title: 'Apple', description: 'THis is apple'),
+          FavoriteCard(title: 'Orange', description: 'This is Orange'),
+          FavoriteCard(title: 'Pine Apple', description: 'This is Pine Apple')
         ],
       ),
     );

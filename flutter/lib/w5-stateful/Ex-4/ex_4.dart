@@ -7,10 +7,11 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.green[200],
         body: Column(
           children: [
-            ScoreCard(title: "hii", score: 4,),
-            ScoreCard(title: "hello", score: 10),
+            ScoreCard(title: "React Score", score: 4,),
+            ScoreCard(title: "Flutter Score", score: 10),
           ]
         ),
       ),
@@ -35,6 +36,11 @@ class _ScoreCardState extends State<ScoreCard> {
     currentScore = widget.score;
   }
   double get scoreBar => currentScore / MAX_SCORE;
+  Color get barColor {
+    if (currentScore < 4) return Colors.green[100]!;
+    if (currentScore < 8) return Colors.green[300]!;
+    return Colors.green[500]!;
+  }
   void increase (){
     setState(() {
       if(currentScore < MAX_SCORE){
@@ -53,9 +59,10 @@ class _ScoreCardState extends State<ScoreCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
@@ -66,17 +73,15 @@ class _ScoreCardState extends State<ScoreCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(onPressed: decrease, child: Text('-')),
-                ElevatedButton(onPressed: increase, child: Text('+')),
+                Button(action: decrease, label: '-'),
+                Button(action: increase, label: '+'),
               ],
             ),
             SizedBox(height: 20),
             Stack(
               children: [
-  
                   Container(
                     height: 40,
-
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(width: 0.5, color: Colors.black),
@@ -90,7 +95,7 @@ class _ScoreCardState extends State<ScoreCard> {
                     height: 40,
                     // width: 40,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: barColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -101,5 +106,16 @@ class _ScoreCardState extends State<ScoreCard> {
         ),
       ),
     );
+  }
+}
+
+class Button extends StatelessWidget {
+  final String label;
+  final VoidCallback action;
+  const Button({super.key, required this.action, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.black), onPressed: action, child: Text(label),);
   }
 }
