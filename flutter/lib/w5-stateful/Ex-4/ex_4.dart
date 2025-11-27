@@ -10,9 +10,10 @@ void main() {
         backgroundColor: Colors.green[200],
         body: Column(
           children: [
-            ScoreCard(title: "React Score", score: 4,),
+            ScoreCard(title: "React Score", score: 4),
             ScoreCard(title: "Flutter Score", score: 10),
-          ]
+            ScoreCard(title: "Dart Score", score: 7),
+          ],
         ),
       ),
     ),
@@ -31,26 +32,29 @@ class ScoreCard extends StatefulWidget {
 class _ScoreCardState extends State<ScoreCard> {
   late int currentScore;
   @override
-  void initState(){
+  void initState() {
     super.initState();
     currentScore = widget.score;
   }
+
   double get scoreBar => currentScore / MAX_SCORE;
   Color get barColor {
     if (currentScore < 4) return Colors.green[100]!;
     if (currentScore < 8) return Colors.green[300]!;
     return Colors.green[500]!;
   }
-  void increase (){
+
+  void increase() {
     setState(() {
-      if(currentScore < MAX_SCORE){
+      if (currentScore < MAX_SCORE) {
         currentScore++;
       }
     });
   }
-  void decrease (){
+
+  void decrease() {
     setState(() {
-      if(currentScore > 0){
+      if (currentScore > 0) {
         currentScore--;
       }
     });
@@ -80,14 +84,14 @@ class _ScoreCardState extends State<ScoreCard> {
             SizedBox(height: 20),
             Stack(
               children: [
-                  Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 0.5, color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 0.5, color: Colors.black),
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                ),
 
                 FractionallySizedBox(
                   widthFactor: scoreBar,
@@ -116,6 +120,13 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.black), onPressed: action, child: Text(label),);
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
+      onPressed: action,
+      child: Text(label),
+    );
   }
 }
