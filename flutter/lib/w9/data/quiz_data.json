@@ -1,0 +1,61 @@
+{
+  "quizid": "flutter-quiz-001",
+  "questions": [
+    {
+      "qid": "q1",
+      "title": "What is Flutter?",
+      "choices": [
+        "A mobile development framework",
+        "A programming language",
+        "A database",
+        "An operating system"
+      ],
+      "goodChoice": "A mobile development framework"
+    },
+    {
+      "qid": "q2",
+      "title": "Which programming language does Flutter use?",
+      "choices": [
+        "Java",
+        "Kotlin",
+        "Dart",
+        "Swift"
+      ],
+      "goodChoice": "Dart"
+    },
+    {
+      "qid": "q3",
+      "title": "What is a Widget in Flutter?",
+      "choices": [
+        "A database component",
+        "A building block of the UI",
+        "A network protocol",
+        "A testing tool"
+      ],
+      "goodChoice": "A building block of the UI"
+    },
+    {
+      "qid": "q4",
+      "title": "Which widget is used for displaying text?",
+      "choices": [
+        "Container",
+        "Text",
+        "Column",
+        "Row"
+      ],
+      "goodChoice": "Text"
+    },
+    {
+      "qid": "q5",
+      "title": "What does 'setState()' do in Flutter?",
+      "choices": [
+        "Saves data to database",
+        "Rebuilds the widget",
+        "Closes the app",
+        "Opens a new screen"
+      ],
+      "goodChoice": "Rebuilds the widget"
+    }
+  ],
+  "submissions": []
+}
