@@ -1,3 +1,4 @@
+import 'package:first_app/w10/ui/expenses/expense_statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/expense.dart';
@@ -75,15 +76,22 @@ class _ExpensesViewState extends State<ExpensesView> {
         backgroundColor: Colors.blue[700],
         title: const Text('Ronan-The-Best Expenses App'),
       ),
-      body: _expenses.isEmpty
-          ? Center(child: Text("No Expense Found, Try adding some"))
-          : ListView.builder(
-              itemCount: _expenses.length,
-              itemBuilder: (context, index) => ExpenseItem(
-                expense: _expenses[index],
-                onDismissed: () => onDismissed(_expenses[index]),
+      body: Column(
+        children: [
+          ExpenseStatistic(expenses: _expenses),
+          _expenses.isEmpty
+              ? Center(child: Text("No Expense Found, Try adding some"))
+              : Expanded(
+                child: ListView.builder(
+                    itemCount: _expenses.length,
+                    itemBuilder: (context, index) => ExpenseItem(
+                      expense: _expenses[index],
+                      onDismissed: () => onDismissed(_expenses[index]),
+                    ),
+                  ),
               ),
-            ),
+        ],
+      ),
     );
   }
 }
@@ -98,18 +106,7 @@ class ExpenseItem extends StatelessWidget {
 
   final Expense expense;
 
-  IconData get expenseIcon {
-    switch (expense.category) {
-      case Category.FOOD:
-        return Icons.free_breakfast;
-      case Category.TRAVEL:
-        return Icons.travel_explore;
-      case Category.LEISURE:
-        return Icons.holiday_village;
-      case Category.WORK:
-        return Icons.work;
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +127,7 @@ class ExpenseItem extends StatelessWidget {
                       expense.title,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text("${expense.amount.toStringAsPrecision(2)} \$"),
+                    Text("${expense.amount.toString()} \$"),
                   ],
                 ),
                 Spacer(),
@@ -138,7 +135,7 @@ class ExpenseItem extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Icon(expenseIcon),
+                      child: Icon(expense.category.icon),
                     ),
                     Text(DateFormat('MM/dd/yyyy').format(expense.date)),
                   ],
